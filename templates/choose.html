@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>秒秒测大App</title>
+</head>
+<body>
+	<h1 align="center"> 秒秒测医药(Lilly) </h1>
+	<h2 align="center"> 接口测试 </h2>
+	<div class="main" align="center">
+		<select id="select_api" onchange="goto()">
+			<option value="0">请选择测试接口</option>
+			<option value="1">获取app基本信息</option>
+			<option value="2">获取开屏广告</option>
+			<option value="3">登录</option>
+		</select>
+		<input type="text" id="textbox" readonly="readonly">
+		<button value="" id="btn_api" onclick="jump()">点击前往</button>
+	</div>
+</body>
+
+	<script type="text/javascript">
+	function goto(){
+		var reslut = document.getElementById("select_api").value;
+		switch(reslut){
+			case "1":
+			document.getElementById("textbox").value = "/basic/getBasicInfo";
+			break;
+			case "2":
+			document.getElementById("textbox").value = "/operation/openingPagetAdvertising";
+			break;
+			case "3":
+			document.getElementById("textbox").value = "/iot/account/login/";
+			break;
+			case "0":
+			document.getElementById("textbox").value = null;
+		}
+	}
+	function jump(){
+		var temp = document.getElementById("textbox").value;
+		if(temp=="/basic/getBasicInfo"){
+			location = "/getBasicInfo/";
+		}
+		else if(temp=="/iot/account/login/"){
+			location = "/login_lilly/";
+		}
+		else if(temp=="/operation/openingPagetAdvertising"){
+			location = null;
+		}
+		else{
+			alert("未选择任何接口！")
+		}
+	}
+	</script>
+</html>

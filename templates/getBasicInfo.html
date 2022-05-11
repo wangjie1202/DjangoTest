@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>登录接口测试</title>
+</head>
+<body>
+	<h1>接口地址：/basic/getBasicInfo</h1>
+	<div>
+		<button id="btn_test" onclick="test()">测试一下</button>
+		<p>响应结果: <br></p>
+		<textarea onchange="test()" id="show_resp" cols="30" rows="5" readonly="readonly"></textarea>
+		<h1>==================================================================================================</h1>
+	</div>
+
+	<div>
+		<form>
+			<p>请输入请求参数:</p>
+			<textarea id="TextArea1" cols="30" rows="5"></textarea>
+			<p>请选择请求类型：</p>
+			<select id="select_methods">
+				<option value="">请选择</option>
+				<option value="GET">GET</option>
+				<option value="POST">POST</option>
+			</select>
+		<!--button id="sub_bnt" onclick="getBasicInfo()">确认</button-->
+		<input type="button" onclick="getBasicInfo()" value="确认" >
+	</form>
+</div>
+<div>
+	<p>响应结果: <br></p>
+		<textarea onchange="getBasicInfo()" id="show_ralresp" cols="30" rows="5" readonly="readonly"></textarea>
+</div>
+
+
+</body>
+
+<!--p>js处理post请求</p-->
+<script type="text/javascript" charset="utf-8">
+	function getBasicInfo(){
+		var openUrl = "http://127.0.0.1:8080/basic/getBasicInfo";
+		// var getParameter = JSON.parse(document.getElementById("TextArea1").value); 使用它会造成非json格式传入时直接报错不往下执行，因此在send时再统一处理
+		//不转json
+		var getParameter = document.getElementById("TextArea1").value;
+		var getMethodsType = document.getElementById("select_methods").value;
+ 		if(getParameter==""){
+			alert("请求参数不能为空");
+		}
+		if (getMethodsType == ""){
+			alert("请选择请求类型");
+		}
+		var httpRequest = new XMLHttpRequest();
+		httpRequest.open(getMethodsType,openUrl,true);
+		httpRequest.setRequestHeader('content-type','application/json')
+		httpRequest.setRequestHeader('Access-Control-Allow-Origin','127.0.0.1:8080')
+		httpRequest.send(JSON.stringify(JSON.parse(getParameter)));
+
+		/**
+		 * 获取数据后的处理程序
+		 */
+		 httpRequest.onreadystatechange = function() {//请求后的回调接口，可将请求成功后要执行的程序写在其中
+		    if (httpRequest.readyState == 4 && httpRequest.status == 200) {//验证请求是否发送成功
+		        var json = httpRequest.responseText;//获取到服务端返回的数据
+				alert("请稍等")
+				document.getElementById("show_ralresp").value = json;
+		    }
+		}
+	}
+</script>
+
+<script type="text/javascript" charset="utf-8">
+	function test(){
+
+		if (window.XMLHttpRequest) {// code for all new browsers
+			httpPost = new XMLHttpRequest();
+		} else if (window.ActiveXObject) {// code for IE5 and IE6
+			httpPost = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		var s = {location_version:"1",app_path:"iOS"};
+		var url = "http://127.0.0.1:8080/basic/getBasicInfo";
+		httpPost.open('POST',url,true);
+		httpPost.setRequestHeader('content-type','application/json')
+		httpPost.setRequestHeader('Access-Control-Allow-Origin','127.0.0.1:8080')
+		httpPost.send(JSON.stringify(s));
+		console.log("发送请求成功")
+
+		httpPost.onreadystatechange = function(){
+			if (httpPost.readyState == 4 && httpPost.status == 200){
+				alert("响应成功");
+				document.getElementById("show_resp").value = httpPost.responseText;
+			}
+		}
+	}
+</script>
+</html>
