@@ -22,5 +22,5 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('choose/', views.choose),
     path('getBasicInfo/', views.getBasicInfo),
-    path('login_lilly/', views.login_lilly),
+    path('login_BigApp/', views.login_bigApp),
 ]

@@ -5,7 +5,7 @@
 	<title>秒秒测大App</title>
 </head>
 <body>
-	<h1 align="center"> 秒秒测医药(Lilly) </h1>
+	<h1 align="center"> 秒秒测大App </h1>
 	<h2 align="center"> 接口测试 </h2>
 	<div class="main" align="center">
 		<select id="select_api" onchange="goto()">
@@ -13,6 +13,21 @@
 			<option value="1">获取app基本信息</option>
 			<option value="2">获取开屏广告</option>
 			<option value="3">登录</option>
+			<option value="4">用户注册接口</option>
+			<option value="5">资讯获取</option>
+			<option value="6">用户反馈</option>
+			<option value="7">发送验证码</option>
+			<option value="8">发送验证码</option>
+			<option value="9">三方登录校验</option>
+			<option value="10">重设密码</option>
+			<option value="11">获取用户信息</option>
+			<option value="12">更新用户信息</option>
+			<option value="13">获取版本支持的产品列表</option>
+			<option value="14">获取用户设备列表</option>
+			<option value="15">绑定设备</option>
+			<option value="16">删除设备</option>
+			<option value="17">消息列表获取</option>
+			<option value="18">创建分享</option>
 		</select>
 		<input type="text" id="textbox" readonly="readonly">
 		<button value="" id="btn_api" onclick="jump()">点击前往</button>
@@ -24,13 +39,58 @@
 		var reslut = document.getElementById("select_api").value;
 		switch(reslut){
 			case "1":
-			document.getElementById("textbox").value = "/basic/getBasicInfo";
+			document.getElementById("textbox").value = "/mmc/basic/getBasicInfo/";
 			break;
 			case "2":
-			document.getElementById("textbox").value = "/operation/openingPagetAdvertising";
+			document.getElementById("textbox").value = "/mmc/operation/openingPagetAdvertising/";
 			break;
 			case "3":
-			document.getElementById("textbox").value = "/iot/account/login/";
+			document.getElementById("textbox").value = "/mmc/user/login/";
+			break;
+			case "4":
+			document.getElementById("textbox").value = "/mmc/user/register/";
+			break;
+			case "5":
+			document.getElementById("textbox").value = "/mmc/operation/carousel/";
+			break;
+			case "6":
+			document.getElementById("textbox").value = "/mmc/operation/feedback/";
+			break;
+			case "7":
+			document.getElementById("textbox").value = "/mmc/user/sendSmsCode/";
+			break;
+			case "8":
+			document.getElementById("textbox").value = "/mmc/user/verificationSmsCode/";
+			break;
+			case "9":
+			document.getElementById("textbox").value = "/mmc/user/verificationThirdPartyLogin/";
+			break;
+			case "10":
+			document.getElementById("textbox").value = "/mmc/user/resetPassword/";
+			break;
+			case "11":
+			document.getElementById("textbox").value = "/mmc/user/getPersonalInfo/";
+			break;
+			case "12":
+			document.getElementById("textbox").value = "/mmc/user/updatePersonalInfo/";
+			break;
+			case "13":
+			document.getElementById("textbox").value = "/mmc/product/availableProductList/";
+			break;
+			case "14":
+			document.getElementById("textbox").value = "/mmc/property/deviceList/";
+			break;
+			case "15":
+			document.getElementById("textbox").value = "/mmc/property/device/binding/";
+			break;
+			case "16":
+			document.getElementById("textbox").value = "/mmc/property/device/remove/";
+			break;
+			case "17":
+			document.getElementById("textbox").value = "/mmc/notificationList/";
+			break;
+			case "18":
+			document.getElementById("textbox").value = "/mmc/promotion/getPromotionId/";
 			break;
 			case "0":
 			document.getElementById("textbox").value = null;
@@ -38,13 +98,55 @@
 	}
 	function jump(){
 		var temp = document.getElementById("textbox").value;
-		if(temp=="/basic/getBasicInfo"){
+		if(temp=="/mmc/basic/getBasicInfo/"){
 			location = "/getBasicInfo/";
 		}
-		else if(temp=="/iot/account/login/"){
-			location = "/login_lilly/";
+		else if(temp=="/mmc/user/login/"){
+			location = "/login_BigApp/";
 		}
-		else if(temp=="/operation/openingPagetAdvertising"){
+		else if(temp=="/mmc/user/register/"){
+			location = null;
+		}
+		else if(temp=="/mmc/operation/openingPagetAdvertising/"){
+			location = null;
+		}
+		else if(temp=="/mmc/operation/carousel/"){
+			location = null;
+		}
+		else if(temp=="/mmc/operation/feedback/"){
+			location = null;
+		}
+		else if(temp=="/mmc/user/sendSmsCode/"){
+			location = null;
+		}
+		else if(temp=="/mmc/user/verificationSmsCode/"){
+			location = null;
+		}
+		else if(temp=="/mmc/user/verificationThirdPartyLogin/"){
+			location = null;
+		}
+		else if(temp=="/mmc/user/resetPassword/"){
+			location = null;
+		}
+		else if(temp=="/mmc/user/updatePersonalInfo/"){
+			location = null;
+		}
+		else if(temp=="/mmc/product/availableProductList/"){
+			location = null;
+		}
+		else if(temp=="/mmc/property/deviceList/"){
+			location = null;
+		}
+		else if(temp=="/mmc/property/device/binding/"){
+			location = null;
+		}
+		else if(temp=="/mmc/property/device/remove/"){
+			location = null;
+		}
+		else if(temp=="/mmc/notificationList/"){
+			location = null;
+		}
+		else if(temp=="/mmc/promotion/getPromotionId/"){
 			location = null;
 		}
 		else{

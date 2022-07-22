@@ -11,7 +11,7 @@ from django.shortcuts import render
 # Create your views here.
 
 ##### 首页 #####
-
+from DjangoTest.get_Url import Url
 
 
 def index(request):
@@ -26,13 +26,14 @@ def getBasicInfo(request):
     return render(request, 'getBasicInfo.html')
 
 
-##### lilly登录接口测试 #####
-def login_lilly(request):
+##### 大app登录接口测试 #####
+def login_bigApp(request):
     # 判断前端请求类型
     if(request.method=='GET'):
-        return render(request, 'login_lilly.html')
+        return render(request, 'login_BigApp.html')
     else:
-        url_lilly = 'http://lillytest.zenm.vip/iot/account/login/'
+        login_url_bigApp = Url().bigApp_Host + Url().bigApp_login
+        print(login_url_bigApp)
         parameter_type = request.POST
         print(parameter_type)
 
@@ -40,7 +41,7 @@ def login_lilly(request):
         if(parameter_type['btn_longin']=='发送json'):
             if(parameter_type['parameter']!=''):
                 data_json = json.loads(request.POST['parameter'])
-                response = requests.post(url=url_lilly, json=data_json)
+                response = requests.post(url=login_url_bigApp, data=data_json)
                 return HttpResponse(response)
             else:
                 return HttpResponse("请求参数不可为空！")
@@ -60,7 +61,7 @@ def login_lilly(request):
                 count = 0
                 for i in list_csv:
                     data = json.loads(i[0])
-                    resp = requests.post(url=url_lilly, json=data)
+                    resp = requests.post(url=login_url_bigApp, data=data)
                     print(resp.request.body)
                     sleep(2)
                     count +=1
