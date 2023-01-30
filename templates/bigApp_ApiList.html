@@ -39,58 +39,58 @@
 		var reslut = document.getElementById("select_api").value;
 		switch(reslut){
 			case "1":
-			document.getElementById("textbox").value = "/mmc/basic/getBasicInfo/";
+			document.getElementById("textbox").value = "/api/basic/getBasicInfo/";
 			break;
 			case "2":
-			document.getElementById("textbox").value = "/mmc/operation/openingPagetAdvertising/";
+			document.getElementById("textbox").value = "/api/operation/openingPagetAdvertising/";
 			break;
 			case "3":
-			document.getElementById("textbox").value = "/mmc/user/login/";
+			document.getElementById("textbox").value = "/api/user/login/";
 			break;
 			case "4":
-			document.getElementById("textbox").value = "/mmc/user/register/";
+			document.getElementById("textbox").value = "/api/user/register/";
 			break;
 			case "5":
-			document.getElementById("textbox").value = "/mmc/operation/carousel/";
+			document.getElementById("textbox").value = "/api/operation/carousel/";
 			break;
 			case "6":
-			document.getElementById("textbox").value = "/mmc/operation/feedback/";
+			document.getElementById("textbox").value = "/api/operation/feedback/";
 			break;
 			case "7":
-			document.getElementById("textbox").value = "/mmc/user/sendSmsCode/";
+			document.getElementById("textbox").value = "/api/user/sendSmsCode/";
 			break;
 			case "8":
-			document.getElementById("textbox").value = "/mmc/user/verificationSmsCode/";
+			document.getElementById("textbox").value = "/api/user/verificationSmsCode/";
 			break;
 			case "9":
-			document.getElementById("textbox").value = "/mmc/user/verificationThirdPartyLogin/";
+			document.getElementById("textbox").value = "/api/user/verificationThirdPartyLogin/";
 			break;
 			case "10":
-			document.getElementById("textbox").value = "/mmc/user/resetPassword/";
+			document.getElementById("textbox").value = "/api/user/resetPassword/";
 			break;
 			case "11":
-			document.getElementById("textbox").value = "/mmc/user/getPersonalInfo/";
+			document.getElementById("textbox").value = "/api/user/getPersonalInfo/";
 			break;
 			case "12":
-			document.getElementById("textbox").value = "/mmc/user/updatePersonalInfo/";
+			document.getElementById("textbox").value = "/api/user/updatePersonalInfo/";
 			break;
 			case "13":
-			document.getElementById("textbox").value = "/mmc/product/availableProductList/";
+			document.getElementById("textbox").value = "/api/product/availableProductList/";
 			break;
 			case "14":
-			document.getElementById("textbox").value = "/mmc/property/deviceList/";
+			document.getElementById("textbox").value = "/api/property/deviceList/";
 			break;
 			case "15":
-			document.getElementById("textbox").value = "/mmc/property/device/binding/";
+			document.getElementById("textbox").value = "/api/property/device/binding/";
 			break;
 			case "16":
-			document.getElementById("textbox").value = "/mmc/property/device/remove/";
+			document.getElementById("textbox").value = "/api/property/device/remove/";
 			break;
 			case "17":
-			document.getElementById("textbox").value = "/mmc/notificationList/";
+			document.getElementById("textbox").value = "/api/notificationList/";
 			break;
 			case "18":
-			document.getElementById("textbox").value = "/mmc/promotion/getPromotionId/";
+			document.getElementById("textbox").value = "/api/promotion/getPromotionId/";
 			break;
 			case "0":
 			document.getElementById("textbox").value = null;
@@ -98,55 +98,55 @@
 	}
 	function jump(){
 		var temp = document.getElementById("textbox").value;
-		if(temp=="/mmc/basic/getBasicInfo/"){
-			location = "/getBasicInfo/";
+		if(temp=="/api/basic/getBasicInfo/"){
+			location = "/bigApp_getBasicInfo/";
 		}
-		else if(temp=="/mmc/user/login/"){
-			location = "/login_BigApp/";
+		else if(temp=="/api/user/login/"){
+			location = "/bigApp_login/";
 		}
-		else if(temp=="/mmc/user/register/"){
+		else if(temp=="/api/user/register/"){
 			location = null;
 		}
-		else if(temp=="/mmc/operation/openingPagetAdvertising/"){
+		else if(temp=="/api/operation/openingPagetAdvertising/"){
 			location = null;
 		}
-		else if(temp=="/mmc/operation/carousel/"){
+		else if(temp=="/api/operation/carousel/"){
 			location = null;
 		}
-		else if(temp=="/mmc/operation/feedback/"){
+		else if(temp=="/api/operation/feedback/"){
 			location = null;
 		}
-		else if(temp=="/mmc/user/sendSmsCode/"){
+		else if(temp=="/api/user/sendSmsCode/"){
 			location = null;
 		}
-		else if(temp=="/mmc/user/verificationSmsCode/"){
+		else if(temp=="/api/user/verificationSmsCode/"){
 			location = null;
 		}
-		else if(temp=="/mmc/user/verificationThirdPartyLogin/"){
+		else if(temp=="/api/user/verificationThirdPartyLogin/"){
 			location = null;
 		}
-		else if(temp=="/mmc/user/resetPassword/"){
+		else if(temp=="/api/user/resetPassword/"){
 			location = null;
 		}
-		else if(temp=="/mmc/user/updatePersonalInfo/"){
+		else if(temp=="/api/user/updatePersonalInfo/"){
 			location = null;
 		}
-		else if(temp=="/mmc/product/availableProductList/"){
+		else if(temp=="/api/product/availableProductList/"){
 			location = null;
 		}
-		else if(temp=="/mmc/property/deviceList/"){
+		else if(temp=="/api/property/deviceList/"){
 			location = null;
 		}
-		else if(temp=="/mmc/property/device/binding/"){
+		else if(temp=="/api/property/device/binding/"){
 			location = null;
 		}
-		else if(temp=="/mmc/property/device/remove/"){
+		else if(temp=="/api/property/device/remove/"){
 			location = null;
 		}
-		else if(temp=="/mmc/notificationList/"){
+		else if(temp=="/api/notificationList/"){
 			location = null;
 		}
-		else if(temp=="/mmc/promotion/getPromotionId/"){
+		else if(temp=="/api/promotion/getPromotionId/"){
 			location = null;
 		}
 		else{

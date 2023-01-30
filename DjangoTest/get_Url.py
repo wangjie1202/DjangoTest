@@ -11,12 +11,13 @@ class Url():
     def __init__(self):
         # 大app地址
         self.bigApp_Host = get_config(name='bigAppHost', key='url')
-
+        # 大app获取app基本信息
+        self.bigApp_getBasicInfo = get_config(name='bigAppHost', key='bigApp_getBasicInfo')
         # 大app登录接口
         self.bigApp_login = get_config(name='bigAppHost', key='bigApp_login')
-
         # 大app注册接口
         self.bigApp_userRegister = get_config(name='bigAppHost', key='bigApp_userRegister')
-
         # 大app用户反馈接口
         self.bigApp_feedback = get_config(name='bigAppHost', key='bigApp_feedback')
+        # 大app发送验证码
+        self.bigApp_feedback = get_config(name='bigAppHost', key='bigApp_sendSmsCode')

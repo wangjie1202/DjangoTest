@@ -5,16 +5,17 @@
     <title>大App登录接口测试</title>
 </head>
 <body>
-    <h1>lilly登录接口测试(/mmc/user/login/)</h1><hr>
+    <h1>大App登录接口测试(/api/user/login/)</h1><hr>
     <p>选择一种入参方式进行接口测试</p>
-    <p>json格式样例：{"email": "XXX", "password": "XXXX"}</p>
-    <p>csv文件格式：写入位置：A1、A2、A3...依次往下，每个单元格写入内容为json样例，最少一行</p>
         <hr>
     <form action="" method="post" name="json_text">
+        <p>json格式样例：{"email": "xxx", "password": "xxx"}</p>
+        <p>json格式样例：{"telphone":"xxx", "pretelphone":"xx","password":"xxx"}</p>
         <p>第一种：请输入入参（json格式）：<input  type="text" name="parameter"><br></p>
         <input type="submit" name="btn_longin" value="发送json">
     </form><hr>
     <form action="" method="post" enctype="multipart/form-data">
+        <p>csv文件格式：写入位置：A1、A2、A3...依次往下，每个单元格写入内容为json样例，最少一行</p>
         <p>第二种：请上传csv文件：<input type="file" name="file_csv" value="上传csv"><br></p>
         <input type="submit" name="btn_longin" value="发送文件">
     </form>

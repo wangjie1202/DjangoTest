@@ -20,7 +20,7 @@ from MyAppTest import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
-    path('choose/', views.choose),
-    path('getBasicInfo/', views.getBasicInfo),
-    path('login_BigApp/', views.login_bigApp),
+    path('bigApp_ApiList/', views.bigApp_ApiList),
+    path('bigApp_getBasicInfo/', views.bigApp_getBasicInfo),
+    path('bigApp_login/', views.bigApp_login),
 ]
