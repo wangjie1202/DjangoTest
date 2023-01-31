@@ -26,4 +26,6 @@ urlpatterns = [
     path('bigApp_feedBack/', views.bigApp_feedBack),
     path('lilly_ApiList/', views.lilly_ApiList),
     path('lilly_login/', views.lilly_login),
+    path('lenglian_ApiList/', views.lenglian_ApiList),
+    path('lenglian_login/', views.lenglian_login),
 ]

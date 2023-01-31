@@ -15,14 +15,15 @@ class Url():
         self.bigApp_getBasicInfo = get_config(name='bigAppHost', key='bigApp_getBasicInfo')
         # 大app登录接口
         self.bigApp_login = get_config(name='bigAppHost', key='bigApp_login')
-        # 大app注册接口
-        self.bigApp_userRegister = get_config(name='bigAppHost', key='bigApp_userRegister')
         # 大app用户反馈接口
         self.bigApp_feedback = get_config(name='bigAppHost', key='bigApp_feedback')
-        # 大app发送验证码
-        self.bigApp_sendSmsCode = get_config(name='bigAppHost', key='bigApp_sendSmsCode')
 
         # Lilly地址
         self.lilly_Host = get_config(name='lillyHost_online', key='url')
         # Lilly登录接口
-        self.lilly_AppLogin = get_config(name='lilly_api', key='lilly_AppLogin')
+        self.lilly_AppLogin = get_config(name='iot_api', key='iot_login')
+
+        # 冷链地址
+        self.lenglian_Host = get_config(name='lenglianHost_online', key='url')
+        # 冷链登录接口
+        self.lenglian_login = get_config(name='iot_api', key='iot_login')

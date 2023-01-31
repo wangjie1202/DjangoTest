@@ -9,10 +9,34 @@
 	<h1 align="center"> 秒秒测项目 </h1>
 	<h2 align="center"> 接口测试 </h2>
 	<div class="main" align="center">
-		<a href="/bigApp_ApiList/" type="button">秒秒测大App<br></a>
-		<a href="/choose/" type="button">秒秒测冷链<br></a>
-		<a href="/lilly_ApiList/" type="button">秒秒测医药（国内）<br></a>
-		<a href="/choose/" type="button">秒秒测医药（海外）<br></a>
+		<select id="select_project" onchange="goto()">
+			<option value="0">请选择项目</option>
+			<option value="1">秒秒测冷链</option>
+			<option value="2">秒秒测医药（lilly）</option>
+			<option value="3">秒秒测医药（国内）</option>
+			<option value="4">秒秒测大App</option>
+		</select>
+		<button value="" id="btn_api" onclick="jump()">点击前往</button>
 	</div>
 </body>
+	<script type="text/javascript">
+		function jump(){
+			var temp = document.getElementById("select_project").value;
+			if(temp=="1"){
+				location = "/lenglian_ApiList/";
+			}
+			else if(temp=="2"){
+				location = "/lilly_ApiList/";
+			}
+			else if(temp=="3"){
+				location = "/lilly_ApiList/";
+			}
+			else if(temp=="4"){
+				location = "/bigApp_ApiList/";
+			}
+			else{
+				alert("请选择要测试的项目！")
+			}
+		}
+	</script>
 </html>
