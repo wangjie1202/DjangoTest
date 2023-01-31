@@ -152,7 +152,7 @@ def get_filePath(filePath):
     :return:
     """
     curPath = os.path.abspath(os.path.dirname(__file__))
-    rootPath = curPath[:curPath.find("DjangoTest/") + len("DjangoTest/")]  # 获取项目的根路径
+    rootPath = curPath[:curPath.find("DjangoTest") + len("DjangoTest/")]  # 获取项目的根路径
     dataPath = os.path.abspath(rootPath + filePath)  # 获取文件的路径
     return dataPath
 
@@ -166,7 +166,7 @@ def get_config(name, key):
     :return:
     """
     config = configparser.ConfigParser()
-    config.read(get_filePath("common/config.ini"))
+    config.read(get_filePath("common/config.ini"), encoding='UTF-8')
     return config.get(name, key)
 
 
