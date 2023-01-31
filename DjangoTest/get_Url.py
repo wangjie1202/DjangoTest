@@ -20,4 +20,9 @@ class Url():
         # 大app用户反馈接口
         self.bigApp_feedback = get_config(name='bigAppHost', key='bigApp_feedback')
         # 大app发送验证码
-        self.bigApp_feedback = get_config(name='bigAppHost', key='bigApp_sendSmsCode')
+        self.bigApp_sendSmsCode = get_config(name='bigAppHost', key='bigApp_sendSmsCode')
+
+        # Lilly地址
+        self.lilly_Host = get_config(name='lillyHost_online', key='url')
+        # Lilly登录接口
+        self.lilly_AppLogin = get_config(name='lilly_api', key='lilly_AppLogin')

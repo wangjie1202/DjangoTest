@@ -2,7 +2,6 @@ import csv
 import json
 from io import StringIO
 from time import sleep
-from turtle import pd
 
 import requests
 from django.http import HttpResponse
@@ -31,17 +30,20 @@ def bigApp_getBasicInfo(request):
         return render(request, 'bigApp_getBasicInfo.html')
     else:
         bigApp_getBasicInfo = Url().bigApp_Host + Url().bigApp_getBasicInfo
-        log.warning(bigApp_getBasicInfo)
+        log.info(bigApp_getBasicInfo)
         parameter_type = request.POST
-        log.warning(parameter_type)
+        log.info(parameter_type)
 
         ##### 判断入参条件
-        if(parameter_type['btn_longin']=='发送json'):
+        if(parameter_type['btn_longin']=='发送请求'):
             if(parameter_type['parameter']!=''):
                 data_json = json.loads(request.POST['parameter'])
                 response = requests.post(url=bigApp_getBasicInfo, data=data_json)
                 log.info(response.json())
-                return HttpResponse(response)
+                if response.status_code != 200:
+                    return render(request, 'error.html')
+                else:
+                    return HttpResponse(response)
             else:
                 return HttpResponse("请求参数不可为空！")
 
@@ -67,7 +69,7 @@ def bigApp_getBasicInfo(request):
                     temp = '第'+str(count)+'条case响应结果：' + str(resp.json()) + ' '
                     log.info(resp.json())
                     resp_list.append(temp)
-                log.warning(resp_list)
+                log.info(resp_list)
                 return HttpResponse(resp_list)
 
             else:
@@ -80,18 +82,22 @@ def bigApp_login(request):
     if(request.method=='GET'):
         return render(request, 'bigApp_login.html')
     else:
-        login_url_bigApp = Url().bigApp_Host + Url().bigApp_login
-        log.warning(login_url_bigApp)
+        website = Url().bigApp_Host + Url().bigApp_login
+        log.info(website)
         parameter_type = request.POST
-        log.warning(parameter_type)
+        log.info(parameter_type)
 
         ##### 判断入参条件
-        if(parameter_type['btn_longin']=='发送json'):
-            if(parameter_type['parameter']!=''):
+        if(parameter_type['btn_longin']=='发送请求'):
+            if(parameter_type['parameter']!='' and parameter_type['content_type']!=''):
                 data_json = json.loads(request.POST['parameter'])
-                response = requests.post(url=login_url_bigApp, data=data_json)
+                headers = json.loads(request.POST['content_type'])
+                response = requests.post(url=website, headers=headers, json=data_json)
                 log.info(response.json())
-                return HttpResponse(response)
+                if response.status_code != 200:
+                    return render(request, 'error.html')
+                else:
+                    return HttpResponse(response)
             else:
                 return HttpResponse("请求参数不可为空！")
 
@@ -110,7 +116,118 @@ def bigApp_login(request):
                 count = 0
                 for i in list_csv:
                     data = json.loads(i[0])
-                    resp = requests.post(url=login_url_bigApp, data=data)
+                    resp = requests.post(url=website, data=data)
+                    log.info(resp.request.body)
+                    sleep(2)
+                    count +=1
+                    temp = '第'+str(count)+'条case响应结果：' + str(resp.json()) + ' '
+                    resp_list.append(temp)
+                log.info(HttpResponse(resp_list))
+                return HttpResponse(resp_list)
+
+            else:
+                return HttpResponse("请上传文件后再提交！")
+
+##### 大app用户反馈接口 #####
+def bigApp_feedBack(request):
+    # 判断前端请求类型
+    if(request.method=='GET'):
+        return render(request, 'bigApp_feedBack.html')
+    else:
+        website = Url().bigApp_Host + Url().bigApp_feedback
+        log.info(website)
+        parameter_type = request.POST
+        log.info(parameter_type)
+
+        ##### 判断入参条件
+        if(parameter_type['btn_longin']=='发送请求'):
+            if(parameter_type['parameter']!='' and parameter_type['content_type']!=''):
+                data_json = json.loads(request.POST['parameter'])
+                headers = json.loads(request.POST['content_type'])
+                headers['AUTHORIZATION'] = 'token '+ json.loads(json.dumps(request.POST['token']))
+                log.debug(headers)
+                response = requests.post(url=website, headers=headers, json=data_json)
+                log.info(response.json())
+                if response.status_code != 200:
+                    return render(request, 'error.html')
+                else:
+                    return HttpResponse(response)
+            else:
+                return HttpResponse("请求参数不可为空！")
+
+        if(parameter_type['btn_longin']=='发送文件'):
+            if(len(parameter_type)==1):
+                # 读取上传的csv文件
+                file_input = request.FILES.get('file_csv', '')
+                file_data = file_input.read().decode("utf-8")
+                csv_data = csv.reader(StringIO(file_data), delimiter=',')
+                list_csv = []
+                for read in csv_data:
+                    list_csv.append(read)
+                resp_list = []
+
+                # 遍历入参数量并批量执行请求测试，合并输出返回结果
+                count = 0
+                for i in list_csv:
+                    data = json.loads(i[0])
+                    resp = requests.post(url=website, data=data)
+                    log.info(resp.request.body)
+                    sleep(2)
+                    count +=1
+                    temp = '第'+str(count)+'条case响应结果：' + str(resp.json()) + ' '
+                    resp_list.append(temp)
+                log.info(HttpResponse(resp_list))
+                return HttpResponse(resp_list)
+
+            else:
+                return HttpResponse("请上传文件后再提交！")
+
+##### lilly选择接口页面 #####
+def lilly_ApiList(request):
+    return render(request, 'lilly_ApiList.html')
+
+##### Lilly 登录接口测试 #####
+def lilly_login(request):
+    # 判断前端请求类型
+    if(request.method=='GET'):
+        return render(request, 'lilly_login.html')
+    else:
+        website = Url().lilly_Host + Url().lilly_AppLogin
+        log.info(website)
+        parameter_type = request.POST
+        log.info(parameter_type)
+
+        ##### 判断入参条件
+        if(parameter_type['btn_longin']=='发送请求'):
+            if(parameter_type['parameter']!='' and parameter_type['content_type']!=''):
+                data_json = json.loads(request.POST['parameter'])
+                headers = json.loads(request.POST['content_type'])
+                response = requests.post(url=website, headers=headers, json=data_json)
+                log.info(response.json())
+                log.info(response.headers)
+                if response.status_code != 200:
+                    return render(request, 'error.html')
+                else:
+                    return HttpResponse(response)
+            else:
+                return HttpResponse("请求参数不可为空！")
+
+        if(parameter_type['btn_longin']=='发送文件'):
+            if(len(parameter_type)==1):
+                # 读取上传的csv文件
+                file_input = request.FILES.get('file_csv', '')
+                file_data = file_input.read().decode("utf-8")
+                csv_data = csv.reader(StringIO(file_data), delimiter=',')
+                list_csv = []
+                for read in csv_data:
+                    list_csv.append(read)
+                resp_list = []
+
+                # 遍历入参数量并批量执行请求测试，合并输出返回结果
+                count = 0
+                for i in list_csv:
+                    data = json.loads(i[0])
+                    resp = requests.post(url=website, data=data)
                     log.info(resp.request.body)
                     sleep(2)
                     count +=1
