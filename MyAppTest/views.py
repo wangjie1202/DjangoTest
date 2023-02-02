@@ -6,6 +6,8 @@ from time import sleep
 import requests
 from django.http import HttpResponse
 from django.shortcuts import render
+
+from common.basic import get_filePath
 from common.log import Log
 
 log = Log()
@@ -96,6 +98,11 @@ def bigApp_login(request):
                 if response.status_code != 200:
                     return render(request, 'error.html')
                 else:
+                    token = response.json()['data']['token']
+                    userAuth = get_filePath("common/user_auth.txt")
+                    with open(userAuth, 'w') as f:
+                        f.write('token ' + token)
+                    f.close()
                     return HttpResponse(response)
             else:
                 return HttpResponse("请求参数不可为空！")
@@ -143,7 +150,16 @@ def bigApp_feedBack(request):
             if(parameter_type['parameter']!='' and parameter_type['content_type']!=''):
                 data_json = json.loads(request.POST['parameter'])
                 headers = json.loads(request.POST['content_type'])
-                headers['AUTHORIZATION'] = 'token '+ json.loads(json.dumps(request.POST['token']))
+
+                # token使用判断
+                if(parameter_type['token']==''):
+                    with open(get_filePath('common/user_auth.txt')) as f:
+                        token = f.read()
+                        f.close()
+                    headers['AUTHORIZATION'] = token
+                else:
+                    headers['AUTHORIZATION'] = 'token '+ json.loads(json.dumps(request.POST['token']))
+
                 log.debug(headers)
                 response = requests.post(url=website, headers=headers, json=data_json)
                 log.info(response.json())
