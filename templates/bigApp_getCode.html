@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>大App验证码查询</title>
+    <script src="js/jquery.min.js"></script>
+</head>
+<body>
+    <div class="demo">
+        <p align="center" style="background-color:rgb(254, 225, 77)">
+             <a href="/" target="_top" style="color: black;"> 返回首页</a>
+             <a href="/bigApp_ApiList" target="_top" style="color: black;"> 选择接口</a>
+        </p>
+        <h1>大App账号验证码查询</h1>
+        <hr>
+    </div>     
+
+    <div id="radioDiv">
+        <label>选择账号类型：</label>
+        <label >
+            <input type="radio" id="radio1" name="parent_radio" value="telphone" disabled="disabled">手机号</sub>
+            <input type="radio" id="radio2" name="parent_radio" value="email" disabled="disabled">邮箱</sub>
+        </label>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button onclick="selectRadio('radio1'); telphone()" >手机号</button>
+            &nbsp;&nbsp;&nbsp;
+            <button onclick="selectRadio('radio2'); email()">邮箱号</button>
+        </p>
+        
+    </div>
+
+    <form action="" method="post" name="json_text">
+        <!--手机地区码-->
+       <p id="perTelphone" style="display: none;">手机地区：<input type="text" name="perTelphone" placeholder="手机地区码(如86)"></p>
+        <!--手机号-->
+        <p id="telphone" style="display: none;">手机号码：<input type="text" name="telphone" placeholder="手机号码"></p>
+        <!--邮箱号-->
+        <p id="email" style="display: none;">邮箱号码：<input type="text" name="email" placeholder="邮箱号"></p>
+        <p>请求类型：
+            <select id="select_content_type" onchange="goto()" style="width: 320px;">
+                <optgroup label="content-type" style="font-weight:bold;">content-type</optgroup>
+                <option value="1" >application/json</option>
+                <option value="2">application/x-www-form-urlencoded</option>
+            </select>
+            <input type="text" id="textbox" name="content_type" readonly="readonly" style="width: 320px;" value='{"Content-Type":"application/json;charset=UTF-8"}'><br><br>
+        </p>
+
+        <input type="submit" name="btn_longin" value="发送请求">
+    </form>
+    </div>
+
+</body>
+    <script type="text/javascript">
+
+        function selectRadio(radioId) {
+        var target = document.getElementById(radioId);
+        target.checked = true;
+        }
+
+        function telphone(){
+            document.getElementById("perTelphone").style.display="block";
+            document.getElementById("telphone").style.display="block";
+            document.getElementById("email").style.display="none";
+        }
+        function email(){
+            document.getElementById("perTelphone").style.display="none";
+            document.getElementById("telphone").style.display="none";
+            document.getElementById("email").style.display="block";
+        }
+    </script>
+
+
+
+
+</html>
