@@ -98,12 +98,15 @@ def bigApp_login(request):
                 if response.status_code != 200:
                     return render(request, 'error.html')
                 else:
-                    token = response.json()['data']['token']
-                    userAuth = get_filePath("common/user_auth.txt")
-                    with open(userAuth, 'w') as f:
-                        f.write('token ' + token)
-                    f.close()
-                    return HttpResponse(response)
+                    if response.json()['code']==0:
+                        token = response.json()['data']['token']
+                        userAuth = get_filePath("common/user_auth.txt")
+                        with open(userAuth, 'w') as f:
+                            f.write('token ' + token)
+                        f.close()
+                        return HttpResponse(response)
+                    else:
+                        return HttpResponse(response)
             else:
                 return HttpResponse("请求参数不可为空！")
 
@@ -196,6 +199,67 @@ def bigApp_feedBack(request):
 
             else:
                 return HttpResponse("请上传文件后再提交！")
+
+##### 大app验证码查询接口 #####
+def bigApp_getCode(request):
+    # 判断前端请求类型
+    if(request.method=='GET'):
+        return render(request, 'bigApp_getCode.html')
+    else:
+        website = Url().bigApp_Host + Url().bigApp_getCode
+        log.info(website)
+        parameter_type = request.POST
+        log.info(parameter_type)
+
+        ##### 判断入参
+        if(parameter_type['btn_longin']=='发送请求'):
+
+            # 判断入参类型
+            if(parameter_type['acc_type']=="acc_phone" and parameter_type['acc_type']!="" ):
+
+                # 判断入参参数
+                if(parameter_type['perTelphone']!='' and parameter_type['telphone']!=''):
+                    perTelphone = json.loads(json.dumps(request.POST['perTelphone']))
+                    telphone = json.loads(json.dumps(request.POST['telphone']))
+                    data_json ={"telphone": telphone, "pretelphone": perTelphone}
+                    log.info(data_json)
+                    headers = json.loads(request.POST['content_type'])
+                    response = requests.post(url=website, headers=headers, json=data_json)
+                    log.info(response.json())
+
+                    # 断言系统code码
+                    if response.status_code != 200:
+                        return render(request, 'error.html')
+                    else:
+                        if response.json()['code'] != 0:
+                            return HttpResponse(response)
+                        else:
+                            code = response.json()['data']['code']
+                            return HttpResponse("验证码："+ str(code))
+                else:
+                    return HttpResponse("请求参数不可为空！")
+
+            elif(parameter_type['acc_type']=="acc_email" and parameter_type['acc_type']!="" ):
+                if (parameter_type['email'] != ''):
+                    email = json.loads(json.dumps(request.POST['email']))
+                    data_json = {"email": email}
+                    log.info(data_json)
+                    headers = json.loads(request.POST['content_type'])
+                    response = requests.post(url=website, headers=headers, json=data_json)
+                    log.info(response.json())
+                    if response.status_code != 200:
+                        return render(request, 'error.html')
+                    else:
+                        if response.json()['code'] != 0:
+                            return HttpResponse(response)
+                        else:
+                            code = response.json()['data']['code']
+                            return HttpResponse("验证码："+ str(code))
+                else:
+                    return HttpResponse("请求参数不可为空！")
+            else:
+                return HttpResponse("请求参数不可为空！")
+
 
 ##### lilly选择接口页面 #####
 def lilly_ApiList(request):

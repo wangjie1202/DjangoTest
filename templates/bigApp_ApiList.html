@@ -11,23 +11,9 @@
 		<select id="select_api" onchange="goto()">
 			<option value="0">请选择测试接口</option>
 			<option value="1">获取app基本信息</option>
-			<option value="2">获取开屏广告</option>
+			<option value="2">*验证码查询*</option>
 			<option value="3">登录</option>
-			<option value="4">用户注册接口</option>
-			<option value="5">资讯获取</option>
-			<option value="6">用户反馈</option>
-			<option value="7">发送验证码</option>
-			<option value="8">发送验证码</option>
-			<option value="9">三方登录校验</option>
-			<option value="10">重设密码</option>
-			<option value="11">获取用户信息</option>
-			<option value="12">更新用户信息</option>
-			<option value="13">获取版本支持的产品列表</option>
-			<option value="14">获取用户设备列表</option>
-			<option value="15">绑定设备</option>
-			<option value="16">删除设备</option>
-			<option value="17">消息列表获取</option>
-			<option value="18">创建分享</option>
+			<option value="4">用户反馈</option>
 		</select>
 		<input type="text" id="textbox" readonly="readonly">
 		<button value="" id="btn_api" onclick="jump()">点击前往</button>
@@ -47,55 +33,13 @@
 			document.getElementById("textbox").value = "/api/basic/getBasicInfo/";
 			break;
 			case "2":
-			document.getElementById("textbox").value = "/api/operation/openingPagetAdvertising/";
+			document.getElementById("textbox").value = "/api/user/get/code/";
 			break;
 			case "3":
 			document.getElementById("textbox").value = "/api/user/login/";
 			break;
 			case "4":
-			document.getElementById("textbox").value = "/api/user/register/";
-			break;
-			case "5":
-			document.getElementById("textbox").value = "/api/operation/carousel/";
-			break;
-			case "6":
 			document.getElementById("textbox").value = "/api/operation/feedback/";
-			break;
-			case "7":
-			document.getElementById("textbox").value = "/api/user/sendSmsCode/";
-			break;
-			case "8":
-			document.getElementById("textbox").value = "/api/user/verificationSmsCode/";
-			break;
-			case "9":
-			document.getElementById("textbox").value = "/api/user/verificationThirdPartyLogin/";
-			break;
-			case "10":
-			document.getElementById("textbox").value = "/api/user/resetPassword/";
-			break;
-			case "11":
-			document.getElementById("textbox").value = "/api/user/getPersonalInfo/";
-			break;
-			case "12":
-			document.getElementById("textbox").value = "/api/user/updatePersonalInfo/";
-			break;
-			case "13":
-			document.getElementById("textbox").value = "/api/product/availableProductList/";
-			break;
-			case "14":
-			document.getElementById("textbox").value = "/api/property/deviceList/";
-			break;
-			case "15":
-			document.getElementById("textbox").value = "/api/property/device/binding/";
-			break;
-			case "16":
-			document.getElementById("textbox").value = "/api/property/device/remove/";
-			break;
-			case "17":
-			document.getElementById("textbox").value = "/api/notificationList/";
-			break;
-			case "18":
-			document.getElementById("textbox").value = "/api/promotion/getPromotionId/";
 			break;
 			case "0":
 			document.getElementById("textbox").value = null;
@@ -109,50 +53,11 @@
 		else if(temp=="/api/user/login/"){
 			location = "/bigApp_login/";
 		}
-		else if(temp=="/api/user/register/"){
-			location = null;
-		}
-		else if(temp=="/api/operation/openingPagetAdvertising/"){
-			location = null;
-		}
-		else if(temp=="/api/operation/carousel/"){
-			location = null;
+		else if(temp=="/api/user/get/code/"){
+			location = /bigApp_getCode/;
 		}
 		else if(temp=="/api/operation/feedback/"){
 			location = /bigApp_feedBack/;
-		}
-		else if(temp=="/api/user/sendSmsCode/"){
-			location = null;
-		}
-		else if(temp=="/api/user/verificationSmsCode/"){
-			location = null;
-		}
-		else if(temp=="/api/user/verificationThirdPartyLogin/"){
-			location = null;
-		}
-		else if(temp=="/api/user/resetPassword/"){
-			location = null;
-		}
-		else if(temp=="/api/user/updatePersonalInfo/"){
-			location = null;
-		}
-		else if(temp=="/api/product/availableProductList/"){
-			location = null;
-		}
-		else if(temp=="/api/property/deviceList/"){
-			location = null;
-		}
-		else if(temp=="/api/property/device/binding/"){
-			location = null;
-		}
-		else if(temp=="/api/property/device/remove/"){
-			location = null;
-		}
-		else if(temp=="/api/notificationList/"){
-			location = null;
-		}
-		else if(temp=="/api/promotion/getPromotionId/"){
-			location = null;
 		}
 		else{
 			alert("未选择任何接口！")

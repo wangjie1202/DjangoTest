@@ -15,6 +15,8 @@ class Url():
         self.bigApp_getBasicInfo = get_config(name='bigAppHost', key='bigApp_getBasicInfo')
         # 大app登录接口
         self.bigApp_login = get_config(name='bigAppHost', key='bigApp_login')
+        # 验证码查询接口
+        self.bigApp_getCode = get_config(name='bigAppHost', key='bigApp_getCode')
         # 大app用户反馈接口
         self.bigApp_feedback = get_config(name='bigAppHost', key='bigApp_feedback')
 

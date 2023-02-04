@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>大App验证码查询</title>
-    <script src="js/jquery.min.js"></script>
 </head>
 <body>
     <div class="demo">
@@ -22,11 +21,11 @@
             <input type="radio" id="radio2" name="parent_radio" value="email" disabled="disabled">邮箱</sub>
         </label>
         <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <button onclick="selectRadio('radio1'); telphone()" >手机号</button>
+            <button onclick="selectRadio('radio1'); telphone() " >手机号</button>
             &nbsp;&nbsp;&nbsp;
             <button onclick="selectRadio('radio2'); email()">邮箱号</button>
         </p>
-        
+
     </div>
 
     <form action="" method="post" name="json_text">
@@ -36,6 +35,9 @@
         <p id="telphone" style="display: none;">手机号码：<input type="text" name="telphone" placeholder="手机号码"></p>
         <!--邮箱号-->
         <p id="email" style="display: none;">邮箱号码：<input type="text" name="email" placeholder="邮箱号"></p>
+        <!--账号类型-->
+        <p id="acc_type" style="display: none;"><input id="input_type" type="text" name="acc_type" readonly="readonly"></p>
+
         <p>请求类型：
             <select id="select_content_type" onchange="goto()" style="width: 320px;">
                 <optgroup label="content-type" style="font-weight:bold;">content-type</optgroup>
@@ -52,21 +54,61 @@
 </body>
     <script type="text/javascript">
 
+        //监听点击button事件，并同步选中单选，同时赋值输入框
         function selectRadio(radioId) {
-        var target = document.getElementById(radioId);
-        target.checked = true;
+            var target = document.getElementById(radioId);
+            target.checked = true;
+            console.log(target.value)
+            switch(target.value){
+                case "telphone":
+                    //赋值输入框
+                    document.getElementById("input_type").value="acc_phone";
+                    document.getElementById("email").value=" ";
+                    
+                    // console.log(document.getElementById('input_type').value);
+                break;
+            
+                case "email":
+                    //赋值输入框
+                    document.getElementById("input_type").value="acc_email";
+                    document.getElementById("perTelphone").value="null";
+                    document.getElementById("telphone").value="null";
+                    
+                    // console.log(document.getElementById('input_type').value);
+                    break;
+            }
         }
 
+        //监听点击的按钮显示或隐藏输入框
         function telphone(){
             document.getElementById("perTelphone").style.display="block";
             document.getElementById("telphone").style.display="block";
             document.getElementById("email").style.display="none";
+
         }
+
+        //监听点击的按钮显示或隐藏输入框
         function email(){
             document.getElementById("perTelphone").style.display="none";
             document.getElementById("telphone").style.display="none";
             document.getElementById("email").style.display="block";
         }
+        
+        function goto(){
+		var reslut = document.getElementById("select_content_type").value;
+		switch(reslut){
+			case "1":
+			document.getElementById("textbox").value = '{"Content-Type":"application/json;charset=UTF-8"}';
+			break;
+			case "2":
+			document.getElementById("textbox").value = '{"Content-Type": "application/x-www-form-urlencoded"}';
+			break;
+			case "0":
+			document.getElementById("textbox").value = null;
+			break;
+		}
+	}
+
     </script>
 
 
