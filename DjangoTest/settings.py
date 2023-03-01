@@ -106,7 +106,14 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+# 在Django中使用UTC 会导致 timeToStamp()方法将本地时间+8后再转成时间戳；
+"""
+我的理解是 Django 支持时区的概念之后，存入数据库的时间全部都是 UTC 时间；
+当我们设置 TIME_ZONE = 'UTC' 时我们获得时间是 UTC 标准时间。而读取数据的时由于设置的是 UTC 标准时间，所以不进行时区转化。咱们中国法定时间是 UTC + 8 所以 Django 的时间就和我们的不一致了；
+而当我们设置 TIME_ZONE = 'Asia/Shanghai' （由于历史原因就是上海时间，感兴趣的自己搜索一下吧）时，Django 会储存转化后的 UTC 标准时间，而当我们读取数据的时候，根据设置将时间 +8 后呈现给我们。
+https://blog.csdn.net/aaazz47/article/details/78696423
+"""
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
