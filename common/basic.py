@@ -25,6 +25,41 @@ def getNowTime():
     time_stamp = datetime.datetime.now().strftime('%Y%m%d%H%M%S%f')
     return time_stamp
 
+
+#获取UTC时间戳
+def getUTCStamp():
+    """
+    获取UTC时间戳
+    :return: UTC时间戳
+    """
+    time_stamp = datetime.datetime.now()
+    t1 = datetime.datetime.utcfromtimestamp(time_stamp.timestamp())
+    return int(t1.timestamp())
+
+
+#时间戳转日期
+def timeStampToStyleTime(timeStamp):
+    """
+    时间戳转日期
+    :param timeStamp: 时间戳(int)
+    :return: 标准日期格式
+    """
+    dateArray = datetime.datetime.fromtimestamp(int(timeStamp))
+    otherStyleTime = dateArray.strftime("%Y-%m-%d %H:%M:%S")
+    return otherStyleTime
+
+
+#指定日期格式转时间戳
+def timeToStamp(time_str):
+    """
+    指定日期格式转时间戳
+    :param time_str: %Y-%m-%d %H:%M:%S
+    :return: 时间戳（int）
+    """
+    t1 = time.strptime(time_str, '%Y-%m-%d %H:%M:%S')  # 将日期字符串转换为元组
+    return int(time.mktime(t1))
+
+
 #生成随机字符串（小写英文+数字）
 def getRandomstr(number):
     """

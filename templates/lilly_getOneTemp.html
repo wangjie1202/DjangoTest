@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>lilly实时温度数据下载</title>
+</head>
+<body>
+    <div class="demo">
+        <p align="center" style="background-color: rgb(29, 69, 141);">
+            <a href="/" target="_top" style="color: aliceblue;"> 返回首页</a>
+            <a href="/lilly_ApiList" target="_top" style="color: aliceblue;"> 选择接口</a>
+        </p>
+        <h1>lilly实时温度数据下载</h1>
+    </div>
+    <hr>
+    <div>
+        <form action="" method="post" name="json_text">
+            <p>物流单号：<input  type="text" name="order" placeholder="请输入完整的物流单号" style="width: 320px;"><br></p>
+            <p>秒秒测ID：<input  type="text" name="mmcid" placeholder="请输入完整的秒秒测ID" style="width: 320px;"><br></p>
+            <p>用户凭证：<input  type="text" name="token" placeholder="完成登录接口操作即可或输入cookie" style="width: 320px;"><br></p>
+            <p>请求类型：
+                <select id="select_content_type" onchange="goto()" style="width: 320px;">
+                    <optgroup label="content-type" style="font-weight:bold;">content-type</optgroup>
+                    <option value="1" >application/json</option>
+                    <option value="2">application/x-www-form-urlencoded</option>
+                </select>
+                <input type="text" id="textbox" name="content_type" readonly="readonly" style="width: 320px;" value='{"Content-Type":"application/json;charset=UTF-8"}'><br><br></p>
+    
+                <input type="submit" name="btn_longin" value="发送请求">
+            </form><hr>
+    </div>
+</body>
+
+    <script type="text/javascript">
+	function goto(){
+		var reslut = document.getElementById("select_content_type").value;
+		switch(reslut){
+			case "1":
+			document.getElementById("textbox").value = '{"Content-Type":"application/json;charset=UTF-8"}';
+			break;
+			case "2":
+			document.getElementById("textbox").value = '{"Content-Type": "application/x-www-form-urlencoded"}';
+			break;
+			case "0":
+			document.getElementById("textbox").value = null;
+			break;
+		}
+	}
+	</script>
+</html>

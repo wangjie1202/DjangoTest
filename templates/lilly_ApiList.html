@@ -11,6 +11,7 @@
 		<select id="select_api" onchange="goto()">
 			<option value="0">请选择测试接口</option>
 			<option value="1">登录接口</option>
+			<option value="2">**网关实时数据下载**</option>
 		</select>
 		<input type="text" id="textbox" readonly="readonly">
 		<button value="" id="btn_api" onclick="jump()">点击前往</button>
@@ -29,6 +30,9 @@
 			case "1":
 			document.getElementById("textbox").value = "/iot/account/login/";
 			break;
+			case "2":
+			document.getElementById("textbox").value = "/onetemp/";
+			break;
 			case "0":
 			document.getElementById("textbox").value = null;
 		}
@@ -37,6 +41,9 @@
 		var temp = document.getElementById("textbox").value;
 		if(temp=="/iot/account/login/"){
 			location = "/lilly_login/";
+		}
+		else if(temp=="/onetemp/"){
+			location = "/lilly_getOneTemp/";
 		}
 		else if(temp=="/api/user/login/"){
 			location = "/lilly_login/";
