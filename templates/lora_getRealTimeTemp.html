@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>lora实时数据下载</title>
+</head>
+<body>
+    <div class="demo">
+        <p align="center" style="background-color: rgb(29, 69, 141);">
+            <a href="/" target="_top" style="color: aliceblue;"> 返回首页</a>
+            <a href="/lora_ApiList" target="_top" style="color: aliceblue;"> 选择接口</a>
+        </p>
+        <h1>lora实时数据下载</h1>
+    </div>
+    <hr>
+    <div>
+        <form action="" method="post" name="json_text">
+            <p>监测点ID：<input  type="text" name="device_mac" placeholder="请输入要查询的监测点ID（如温度标签ID）" style="width: 320px;"><br></p>
+            <p>查询天数：<input  type="text" name="days" placeholder="请输入要查询的数据天数(0.4-30)" style="width: 320px;"><br></p>
+            <p>选择要下载的数据：</p>
+            <label><input name="rssi" type="checkbox" value="" />rssi &nbsp;</label>
+            <label><input name="temperature" type="checkbox" value="" />温度 &nbsp;</label>
+            <label><input name="humidity" type="checkbox" value="" />湿度 &nbsp;</label>
+            <label><input name="co2" type="checkbox" value="" />CO2 &nbsp;</label>
+            <label><input name="battery" type="checkbox" value="" />电量 &nbsp;</label>
+            <p>用户凭证：<input  type="text" name="token" placeholder="完成登录接口操作即可或输入cookie" style="width: 320px;"><br></p>
+            <p>请求类型：
+                <select id="select_content_type" onchange="goto()" style="width: 320px;">
+                    <optgroup label="content-type" style="font-weight:bold;">content-type</optgroup>
+                    <option value="1" >application/json</option>
+                    <option value="2">application/x-www-form-urlencoded</option>
+                </select>
+                <input type="text" id="textbox" name="content_type" readonly="readonly" style="width: 320px;" value='{"Content-Type":"application/json;charset=UTF-8"}'><br><br></p>
+    
+                <input type="submit" name="btn_longin" value="发送请求">
+            </form><hr>
+    </div>
+</body>
+
+    <script type="text/javascript">
+	function goto(){
+		var reslut = document.getElementById("select_content_type").value;
+		switch(reslut){
+			case "1":
+			document.getElementById("textbox").value = '{"Content-Type":"application/json;charset=UTF-8"}';
+			break;
+			case "2":
+			document.getElementById("textbox").value = '{"Content-Type": "application/x-www-form-urlencoded"}';
+			break;
+			case "0":
+			document.getElementById("textbox").value = null;
+			break;
+		}
+	}
+	</script>
+</html>

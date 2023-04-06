@@ -29,8 +29,14 @@ class Url():
         # Lilly运单号查询接口
         self.lilly_selectOrders = get_config(name='iot_api', key='iot_selectOrders')
 
-
         # 冷链地址
         self.lenglian_Host = get_config(name='lenglianHost_online', key='url')
         # 冷链登录接口
         self.lenglian_login = get_config(name='iot_api', key='iot_login')
+
+        # lora（中国）地址
+        self.lora_CHN_Host = get_config(name='loraHost_online', key='CHNurl')
+        # lora（中国）登录接口
+        self.lora_CHN_login = get_config(name='iot_api', key='iot_login')
+        # lora（中国）实时数据查询接口
+        self.lora_CHN_relTimeTemp = get_config(name='iot_api', key='iot_realTimeTemp')

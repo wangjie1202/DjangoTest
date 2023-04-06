@@ -15,6 +15,7 @@
 			<option value="2">秒秒测医药（lilly）</option>
 			<option value="3">秒秒测医药（国内）</option>
 			<option value="4">秒秒测大App</option>
+			<option value="5">秒秒测Lora平台</option>
 		</select>
 		<button value="" id="btn_api" onclick="jump()">点击前往</button>
 	</div>
@@ -33,6 +34,9 @@
 			}
 			else if(temp=="4"){
 				location = "/bigApp_ApiList/";
+			}
+			else if(temp=="5"){
+				location = "/lora_ApiList/";
 			}
 			else{
 				alert("请选择要测试的项目！")

@@ -16,6 +16,16 @@ import xlutils.copy
 import time
 
 
+
+#生成当前时间标准格式
+def getNowStrfTime():
+    """
+    生成当前时间标准格式
+    :return:
+    """
+    time_stamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    return time_stamp
+
 #生成当前时间戳
 def getNowTime():
     """

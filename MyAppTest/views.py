@@ -9,18 +9,15 @@ import requests
 from django.http import HttpResponse
 from django.shortcuts import render
 
-from common.basic import get_filePath, timeStampToStyleTime, timeToStamp, getUTCStamp
+from common.basic import get_filePath, timeStampToStyleTime, timeToStamp, getUTCStamp, getNowStrfTime
 from common.log import Log
+from DjangoTest.get_Url import Url
 
 log = Log()
 
 # Create your views here.
 
 ##### 首页 #####
-from DjangoTest.get_Url import Url
-
-
-
 def index(request):
     return render(request, 'index.html')
 
@@ -263,7 +260,6 @@ def bigApp_getCode(request):
             else:
                 return HttpResponse("请求参数不可为空！")
 
-
 ##### lilly选择接口页面 #####
 def lilly_ApiList(request):
     return render(request, 'lilly_ApiList.html')
@@ -290,19 +286,22 @@ def lilly_login(request):
                 if response.status_code != 200:
                     return render(request, 'error.html')
                 else:
-                    # 正则提取csrftoken和sessionid
-                    temp = response.headers['Set-Cookie']
-                    csrftoken = re.findall('csrftoken=(.*?); expires', temp)
-                    csrftoken = csrftoken[0]
-                    sessionid = re.findall('sessionid=(.*?); expires=', temp)
-                    sessionid = sessionid[0]
+                    if response.json()['result'] != 200:
+                        return HttpResponse(response)
+                    else:
+                        # 正则提取csrftoken和sessionid
+                        temp = response.headers['Set-Cookie']
+                        csrftoken = re.findall('csrftoken=(.*?); expires', temp)
+                        csrftoken = csrftoken[0]
+                        sessionid = re.findall('sessionid=(.*?); expires=', temp)
+                        sessionid = sessionid[0]
 
-                    # 写入cookie
-                    userAuth = get_filePath("common/lilly_cookie.txt")
-                    with open(userAuth, 'w') as f:
-                        f.write('csrftoken=' + csrftoken + ';sessionid=' + sessionid)
-                    f.close()
-                    return HttpResponse(response)
+                        # 写入cookie
+                        userAuth = get_filePath("common/lilly_cookie.txt")
+                        with open(userAuth, 'w') as f:
+                            f.write('csrftoken=' + csrftoken + ';sessionid=' + sessionid)
+                        f.close()
+                        return HttpResponse(response)
             else:
                 return HttpResponse("请求参数不可为空！")
 
@@ -438,7 +437,6 @@ def lilly_getOneTemp(request):
         else:
             return HttpResponse("请求参数不可为空！")
 
-
 ##### 冷链选择接口页面 #####
 def lenglian_ApiList(request):
     return render(request, 'lenglian_ApiList.html')
@@ -465,7 +463,22 @@ def lenglian_login(request):
                 if response.status_code != 200:
                     return render(request, 'error.html')
                 else:
-                    return HttpResponse(response)
+                    if response.json()['result'] != 200:
+                        return HttpResponse(response)
+                    else:
+                        # 正则提取csrftoken和sessionid
+                        temp = response.headers['Set-Cookie']
+                        csrftoken = re.findall('csrftoken=(.*?); expires', temp)
+                        csrftoken = csrftoken[0]
+                        sessionid = re.findall('sessionid=(.*?); expires=', temp)
+                        sessionid = sessionid[0]
+
+                        # 写入cookie
+                        userAuth = get_filePath("common/lilly_cookie.txt")
+                        with open(userAuth, 'w') as f:
+                            f.write('csrftoken=' + csrftoken + ';sessionid=' + sessionid)
+                        f.close()
+                        return HttpResponse(response)
             else:
                 return HttpResponse("请求参数不可为空！")
 
@@ -495,3 +508,161 @@ def lenglian_login(request):
 
             else:
                 return HttpResponse("请上传文件后再提交！")
+
+##### lora选择接口页面 #####
+def lora_ApiList(request):
+    return render(request, 'lora_ApiList.html')
+
+##### Lora 登录接口测试 #####
+def lora_login(request):
+    # 判断前端请求类型
+    if(request.method=='GET'):
+        return render(request, 'lora_login.html')
+    else:
+        website = Url().lora_CHN_Host + Url().lora_CHN_login
+        log.info(website)
+        parameter_type = request.POST
+        log.info(parameter_type)
+
+        ##### 判断入参条件
+        if(parameter_type['btn_longin']=='发送请求'):
+            if(parameter_type['parameter']!='' and parameter_type['content_type']!=''):
+                data_json = json.loads(request.POST['parameter'])
+                headers = json.loads(request.POST['content_type'])
+                response = requests.post(url=website, headers=headers, json=data_json)
+                log.info(response.json())
+                log.info(response.headers)
+                if response.status_code != 200:
+                    return render(request, 'error.html')
+                else:
+                    if response.json()['result'] != 200:
+                        return HttpResponse(response)
+                    else:
+                        # 正则提取csrftoken和sessionid
+                        temp = response.headers['Set-Cookie']
+                        csrftoken = re.findall('csrftoken=(.*?); expires', temp)
+                        csrftoken = csrftoken[0]
+                        sessionid = re.findall('sessionid=(.*?); expires=', temp)
+                        sessionid = sessionid[0]
+
+                        # 写入cookie
+                        userAuth = get_filePath("common/lora_cookie.txt")
+                        with open(userAuth, 'w') as f:
+                            f.write('csrftoken=' + csrftoken + ';sessionid=' + sessionid)
+                        f.close()
+                        return HttpResponse(response)
+            else:
+                return HttpResponse("请求参数不可为空！")
+
+        if(parameter_type['btn_longin']=='发送文件'):
+            if(len(parameter_type)==1):
+                # 读取上传的csv文件
+                file_input = request.FILES.get('file_csv', '')
+                file_data = file_input.read().decode("utf-8")
+                csv_data = csv.reader(StringIO(file_data), delimiter=',')
+                list_csv = []
+                for read in csv_data:
+                    list_csv.append(read)
+                resp_list = []
+
+                # 遍历入参数量并批量执行请求测试，合并输出返回结果
+                count = 0
+                for i in list_csv:
+                    data = json.loads(i[0])
+                    resp = requests.post(url=website, data=data)
+                    log.info(resp.request.body)
+                    sleep(2)
+                    count +=1
+                    temp = '第'+str(count)+'条case响应结果：' + str(resp.json()) + ' '
+                    resp_list.append(temp)
+                log.info(HttpResponse(resp_list))
+                return HttpResponse(resp_list)
+
+            else:
+                return HttpResponse("请上传文件后再提交！")
+
+##### Lora 网关实时数据下载接口 #####
+def lora_getrealTimeTemp(request):
+    # 判断前端请求类型
+    if(request.method=='GET'):
+        return render(request, 'lora_getRealTimeTemp.html')
+    else:
+        website = Url().lora_CHN_Host + Url().lora_CHN_relTimeTemp
+        log.info('请求地址：' + website)
+        parameter_type = request.POST
+        log.info(parameter_type)
+
+        ##### 判断入参条件
+        if (parameter_type['device_mac'] != '' and parameter_type['days']):
+            deviceId = json.loads(json.dumps(parameter_type['device_mac']))
+            days = int(json.loads(json.dumps(parameter_type['days'])))
+            headers = json.loads(request.POST['content_type'])
+
+            # token使用判断
+            if (parameter_type['token'] == ''):
+                with open(get_filePath('common/lora_cookie.txt')) as f:
+                    token = f.read()
+                    f.close()
+                headers['Cookie'] = token
+            else:
+                headers['Cookie'] =json.loads(json.dumps(request.POST['token']))
+            seconds = days * 24 * 60 * 60
+            nowStrfTime = int(timeToStamp(getNowStrfTime()))
+            startTime = int(nowStrfTime - seconds)
+
+            order_data = "/?device_mac=" + deviceId + "&start_time=" + str(startTime) + "&end_time=" + str(nowStrfTime)
+            log.info('请求参数：' + str(order_data))
+            response = requests.get(url=website + order_data, headers=headers)
+            if response.status_code != 200:
+                    return render(request, 'error.html')
+            else:
+                if response.json()['result'] != 200:
+                    return HttpResponse(response)
+                else:
+                    resp_data = response.json()['data']
+                    tempExcel = get_filePath('common/data/' + deviceId + '.xls')
+                    log.info('正在生成excel数据，请稍后')
+
+                    # 创建excel，xlsxwriter支持大文件写入（解决256行以上报错问题）
+                    writebook = xlsxwriter.Workbook(tempExcel)
+                    writesheet = writebook.add_worksheet(deviceId)
+
+                    # 获取如参key name，删除不需要的key
+                    # keys = list(parameter_type.keys())
+                    # keys.remove('device_mac')
+                    # keys.remove('days')
+                    # keys.remove('token')
+                    # keys.remove('content_type')
+                    # keys.remove('btn_longin')
+
+                    rowTitle = ['time', 'rssi', 'temp', 'humidity', 'co2', 'battery']
+                    # 从A1单元格开始填充rowTitle的数据
+                    writesheet.write_row('A1', rowTitle)
+                    for i in range(0, len(rowTitle)):
+                        writesheet.write(0, i, rowTitle[i])
+
+                    # 写入Excel单元格
+                    for col in range(0, len(resp_data)):
+                        # 写入时间
+                        utc8 = (int(resp_data[col]['time']) + 8 * 60 * 60)
+                        writesheet.write(col + 1, 0, timeStampToStyleTime(utc8))
+                        # 写入信号
+                        writesheet.write(col + 1, 1, resp_data[col]['rssi'])
+                        # 写入温度
+                        writesheet.write(col + 1, 2, resp_data[col]['temperature'])
+                        # 写入湿度
+                        writesheet.write(col + 1, 3, resp_data[col]['humidity'])
+                        # 写入co2
+                        # writesheet.write(col + 1, 4, int(resp_data[col]['co2']))
+                        # 写入Battery
+                        writesheet.write(col + 1, 5, int(resp_data[col]['battery']))
+                    writebook.close()
+                    log.info('excel生成完毕，开始下载文件...')
+
+                    with open(tempExcel, 'rb') as model_excel:
+                        result = model_excel.read()
+                    response = HttpResponse(result)
+                    response['Content-Disposition'] = 'attachment; filename=' + deviceId + '.xlsx'
+                    return response
+        else:
+            return HttpResponse("请求参数不可为空！")
