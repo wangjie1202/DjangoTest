@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>大App验证码查询</title>
+    <title>大App验证码发送及查询</title>
 </head>
 <body>
     <div class="demo">
@@ -10,18 +10,18 @@
              <a href="/" target="_top" style="color: black;"> 返回首页</a>
              <a href="/bigApp_ApiList" target="_top" style="color: black;"> 选择接口</a>
         </p>
-        <h1>大App账号验证码查询</h1>
+        <h1>大App验证码发送及查询</h1>
         <hr>
-    </div>     
+    </div>
 
     <div id="radioDiv">
-        <label>选择账号类型：</label>
+        <label>账号类型：</label>
         <label >
             <input type="radio" id="radio1" name="parent_radio" value="telphone" disabled="disabled">手机号</sub>
             <input type="radio" id="radio2" name="parent_radio" value="email" disabled="disabled">邮箱</sub>
         </label>
         <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <button onclick="selectRadio('radio1'); telphone() " >手机号</button>
+            <button onclick="selectRadio('radio1'); telphone() ">手机号</button>
             &nbsp;&nbsp;&nbsp;
             <button onclick="selectRadio('radio2'); email()">邮箱号</button>
         </p>
@@ -44,8 +44,34 @@
                 <option value="1" >application/json</option>
                 <option value="2">application/x-www-form-urlencoded</option>
             </select>
-            <input type="text" id="textbox" name="content_type" readonly="readonly" style="width: 320px;" value='{"Content-Type":"application/json;charset=UTF-8"}'><br><br>
+            <input type="text" id="textbox" name="content_type" readonly="readonly" style="width: 320px;" value='{"Content-Type":"application/json;charset=UTF-8"}'>
         </p>
+        <p>访问地区：
+            <select id="select_gateway_type" name="gatewayt_type">
+                <optgroup label="请选择地区" style="font-weight:bold;">gateway-type</optgroup>
+                <option value="1" >中国大陆</option>
+                <option value="2" >全球</option>
+            </select>
+        </p>
+        <p>功能选择：
+            <select id="switch_func" name="func_type">
+               <!-- <optgroup label="请选择功能" style="font-weight:bold;">switch-func</optgroup> -->
+                 <option value="0" >请选择功能</option>
+                <option value="1" >验证码发送</option>
+                <option value="2" >验证码查询</option>
+            </select>
+        </p>
+
+        <span id="radio_reg" style="display: none;" name="sendCode_reg"> 验证码类型：<br>
+            <input type="radio" name="sendCode_type" value="0" checked> 注册
+        </span>
+        <span id="radio_login" style="display: none;" name="sendCode_login">
+            <input type="radio" name="sendCode_type" value="1"> 验证码登录
+        </span>
+        <span id="radio_pwd" style="display: none;" name="sendCode_pwd">
+            <input type="radio" name="sendCode_type" value="3"> 找回密码
+        </span>
+        <br>
 
         <input type="submit" name="btn_longin" value="发送请求">
     </form>
@@ -64,16 +90,16 @@
                     //赋值输入框
                     document.getElementById("input_type").value="acc_phone";
                     document.getElementById("email").value=" ";
-                    
+
                     // console.log(document.getElementById('input_type').value);
                 break;
-            
+
                 case "email":
                     //赋值输入框
                     document.getElementById("input_type").value="acc_email";
                     document.getElementById("perTelphone").value="null";
                     document.getElementById("telphone").value="null";
-                    
+
                     // console.log(document.getElementById('input_type').value);
                     break;
             }
@@ -93,7 +119,7 @@
             document.getElementById("telphone").style.display="none";
             document.getElementById("email").style.display="block";
         }
-        
+
         function goto(){
 		var reslut = document.getElementById("select_content_type").value;
 		switch(reslut){
@@ -108,6 +134,36 @@
 			break;
 		}
 	}
+
+    // 监听是否展示发送验证码的选择
+    const select = document.querySelector("#switch_func");
+    select.addEventListener("change", (e) => {
+      showRadios(e.target.value);
+    });
+
+    //监听功能下拉框
+    function showRadios(value) {
+      if(value === "1") {
+        document.querySelector("#radio_reg").style.display = "block";
+        document.querySelector("#radio_pwd").style.display = "block";
+        document.querySelector("#radio_login").style.display = "block";
+      }
+      if(value === "2") {
+        document.querySelector("#radio_reg").style.display = "none";
+        document.querySelector("#radio_pwd").style.display = "none";
+        document.querySelector("#radio_login").style.display = "none";
+      }
+    }
+
+    //监听单选选择
+    function selectRadio_sendCode(value) {
+        const radios = document.querySelectorAll('input[name="sendCode_type"]');
+        for (let i=0; i<radios.length; i++) {
+            if (radios[i].value === value) {
+            radios[i].checked = true;
+            }
+        }
+    }
 
     </script>
 

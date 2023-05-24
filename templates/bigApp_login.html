@@ -20,15 +20,22 @@
         <p>样例格式1：{"email": "xxx", "password": "xxx"}</p>
         <p>样例格式2：{"telphone":"xxx", "pretelphone":"xx","password":"xxx"}</p>
         <p>请求参数：<input  type="text" name="parameter" placeholder="json格式" style="width: 320px;"><br></p>
-        <p>用户凭证：<input  type="text" name="token" placeholder="在登录接口获取token" style="width: 320px;"><br></p>
+        <!--p>用户凭证：<input  type="text" name="token" placeholder="在登录接口获取token" style="width: 320px;"><br></p-->
         <p>请求类型：
             <select id="select_content_type" onchange="goto()" style="width: 320px;">
                 <optgroup label="content-type" style="font-weight:bold;">content-type</optgroup>
                 <option value="1" >application/json</option>
                 <option value="2">application/x-www-form-urlencoded</option>
             </select>
-            <input type="text" id="textbox" name="content_type" readonly="readonly" style="width: 320px;" value='{"Content-Type":"application/json;charset=UTF-8"}'><br><br></p>
-
+            <input type="text" id="textbox" name="content_type" readonly="readonly" style="width: 320px;" value='{"Content-Type":"application/json;charset=UTF-8"}'></p>
+        <p>访问地区：
+            <select id="select_gateway_type" name="gatewayt_type">
+                <optgroup label="请选择地区" style="font-weight:bold;">gateway-type</optgroup>
+                <option value="1" >中国大陆</option>
+                <option value="2" >全球</option>
+            </select>
+            <br>
+        </p>
             <input type="submit" name="btn_longin" value="发送请求">
         </form><hr>
     </div>
@@ -37,6 +44,14 @@
         <p style="font-weight: bold; color:crimson;">方式二：<br></p>
         <p>上传csv文件：<input type="file" name="file_csv" value="上传csv"><br></p>
         <p>csv文件格式：写入位置：A1、A2、A3...依次往下，每个单元格写入内容为json样例，最少一行</p>
+        <p>访问地区：
+            <select id="select_gateway_type2" name="gatewayt_type">
+                <optgroup label="请选择地区" style="font-weight:bold;">gateway-type</optgroup>
+                <option value="1" >中国大陆</option>
+                <option value="2" >全球</option>
+            </select>
+            <br>
+        </p>
         <input type="submit" name="btn_longin" value="发送文件">
     </form>
 </body>

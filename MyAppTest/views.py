@@ -27,20 +27,30 @@ def bigApp_ApiList(request):
 
 ##### 大App获取app基本信息页面 #####
 def bigApp_getBasicInfo(request):
+    """
+    TODO 大App获取app基本信息页面
+    """
 # 判断前端请求类型
     if(request.method=='GET'):
         return render(request, 'bigApp_getBasicInfo.html')
     else:
-        bigApp_getBasicInfo = Url().bigApp_Host + Url().bigApp_getBasicInfo
-        log.info(bigApp_getBasicInfo)
         parameter_type = request.POST
         log.info(parameter_type)
+        # 选择要访问的服务器
+        if parameter_type['gatewayt_type'] == '1':
+            website = Url().bigApp_Host_ch + Url().bigApp_getBasicInfo
+            log.info(website)
+        elif parameter_type['gatewayt_type'] == '2':
+            website = Url().bigApp_Host_eu + Url().bigApp_getBasicInfo
+            log.info(website)
+        else:
+            return HttpResponse("地区选择错误！")
 
         ##### 判断入参条件
         if(parameter_type['btn_longin']=='发送请求'):
             if(parameter_type['parameter']!=''):
                 data_json = json.loads(request.POST['parameter'])
-                response = requests.post(url=bigApp_getBasicInfo, data=data_json)
+                response = requests.post(url=website, data=data_json)
                 log.info(response.json())
                 if response.status_code != 200:
                     return render(request, 'error.html')
@@ -64,7 +74,7 @@ def bigApp_getBasicInfo(request):
                 count = 0
                 for i in list_csv:
                     data = json.loads(i[0])
-                    resp = requests.post(url=bigApp_getBasicInfo, data=data)
+                    resp = requests.post(url=website, data=data)
                     log.info(resp.request.body)
                     sleep(2)
                     count +=1
@@ -79,14 +89,24 @@ def bigApp_getBasicInfo(request):
 
 ##### 大app登录接口测试 #####
 def bigApp_login(request):
+    """
+    TODO 大app登录接口测试
+    """
     # 判断前端请求类型
     if(request.method=='GET'):
         return render(request, 'bigApp_login.html')
     else:
-        website = Url().bigApp_Host + Url().bigApp_login
-        log.info(website)
         parameter_type = request.POST
         log.info(parameter_type)
+        # 选择要访问的服务器
+        if parameter_type['gatewayt_type'] == '1':
+            website = Url().bigApp_Host_ch + Url().bigApp_login
+            log.info(website)
+        elif parameter_type['gatewayt_type'] == '2':
+            website = Url().bigApp_Host_eu + Url().bigApp_login
+            log.info(website)
+        else:
+            return HttpResponse("地区选择错误！")
 
         ##### 判断入参条件
         if(parameter_type['btn_longin']=='发送请求'):
@@ -139,14 +159,24 @@ def bigApp_login(request):
 
 ##### 大app用户反馈接口 #####
 def bigApp_feedBack(request):
+    """
+    TODO 大app用户反馈接口
+    """
     # 判断前端请求类型
     if(request.method=='GET'):
         return render(request, 'bigApp_feedBack.html')
     else:
-        website = Url().bigApp_Host + Url().bigApp_feedback
-        log.info(website)
         parameter_type = request.POST
         log.info(parameter_type)
+        # 选择要访问的服务器
+        if parameter_type['gatewayt_type'] == '1':
+            website = Url().bigApp_Host_ch + Url().bigApp_feedback
+            log.info(website)
+        elif parameter_type['gatewayt_type'] == '2':
+            website = Url().bigApp_Host_eu + Url().bigApp_feedback
+            log.info(website)
+        else:
+            return HttpResponse("地区选择错误！")
 
         ##### 判断入参条件
         if(parameter_type['btn_longin']=='发送请求'):
@@ -202,14 +232,33 @@ def bigApp_feedBack(request):
 
 ##### 大app验证码查询接口 #####
 def bigApp_getCode(request):
+    """
+    TODO 大app验证码查询接口
+    """
     # 判断前端请求类型
     if(request.method=='GET'):
         return render(request, 'bigApp_getCode.html')
     else:
-        website = Url().bigApp_Host + Url().bigApp_getCode
-        log.info(website)
         parameter_type = request.POST
         log.info(parameter_type)
+
+        # 选页面要使用的功能
+        if parameter_type['func_type'] == '1':
+            api = Url().bigApp_sendSmsCode
+        elif parameter_type['func_type'] == '2':
+            api = Url().bigApp_getCode
+        else:
+            return HttpResponse("功能选择错误！")
+
+        # 选择要访问的服务器
+        if parameter_type['gatewayt_type'] == '1':
+            website = Url().bigApp_Host_ch + api
+            log.info(website)
+        elif parameter_type['gatewayt_type'] == '2':
+            website = Url().bigApp_Host_eu + api
+            log.info(website)
+        else:
+            return HttpResponse("地区选择错误！")
 
         ##### 判断入参
         if(parameter_type['btn_longin']=='发送请求'):
@@ -221,7 +270,13 @@ def bigApp_getCode(request):
                 if(parameter_type['perTelphone']!='' and parameter_type['telphone']!=''):
                     perTelphone = json.loads(json.dumps(request.POST['perTelphone']))
                     telphone = json.loads(json.dumps(request.POST['telphone']))
-                    data_json ={"telphone": telphone, "pretelphone": perTelphone}
+
+                    # 判断请求是否为注册
+                    if parameter_type['func_type'] == '1':
+                        sendCode_type = parameter_type['sendCode_type']
+                        data_json = {"telphone": telphone, "pretelphone": perTelphone, "type": sendCode_type}
+                    elif parameter_type['func_type'] == '2':
+                        data_json ={"telphone": telphone, "pretelphone": perTelphone}
                     log.info(data_json)
                     headers = json.loads(request.POST['content_type'])
                     response = requests.post(url=website, headers=headers, json=data_json)
@@ -234,15 +289,25 @@ def bigApp_getCode(request):
                         if response.json()['code'] != 0:
                             return HttpResponse(response)
                         else:
-                            code = response.json()['data']['code']
-                            return HttpResponse("验证码："+ str(code))
+                            # 判断请求是否为注册决定返回的数据
+                            if parameter_type['func_type'] == '1':
+                                return HttpResponse(response)
+                            elif parameter_type['func_type'] == '2':
+                                code = response.json()['data']['code']
+                                return HttpResponse("验证码：" + str(code))
                 else:
                     return HttpResponse("请求参数不可为空！")
 
             elif(parameter_type['acc_type']=="acc_email" and parameter_type['acc_type']!="" ):
                 if (parameter_type['email'] != ''):
                     email = json.loads(json.dumps(request.POST['email']))
-                    data_json = {"email": email}
+
+                    # 判断请求是否为注册
+                    if parameter_type['func_type'] == '1':
+                        sendCode_type = parameter_type['sendCode_type']
+                        data_json = {"email": email, "type": sendCode_type}
+                    elif parameter_type['func_type'] == '2':
+                        data_json = {"email": email}
                     log.info(data_json)
                     headers = json.loads(request.POST['content_type'])
                     response = requests.post(url=website, headers=headers, json=data_json)
@@ -253,8 +318,12 @@ def bigApp_getCode(request):
                         if response.json()['code'] != 0:
                             return HttpResponse(response)
                         else:
-                            code = response.json()['data']['code']
-                            return HttpResponse("验证码："+ str(code))
+                            # 判断请求是否为注册决定返回的数据
+                            if parameter_type['func_type'] == '1':
+                                return HttpResponse(response)
+                            elif parameter_type['func_type'] == '2':
+                                code = response.json()['data']['code']
+                                return HttpResponse("验证码：" + str(code))
                 else:
                     return HttpResponse("请求参数不可为空！")
             else:
@@ -266,6 +335,9 @@ def lilly_ApiList(request):
 
 ##### Lilly 登录接口测试 #####
 def lilly_login(request):
+    """
+    TODO Lilly 登录接口测试
+    """
     # 判断前端请求类型
     if(request.method=='GET'):
         return render(request, 'lilly_login.html')
@@ -334,6 +406,9 @@ def lilly_login(request):
 
 ##### Lilly 网关实时数据下载接口 #####
 def lilly_getOneTemp(request):
+    """
+    TODO Lilly 网关实时数据下载接口
+    """
     # 判断前端请求类型
     if(request.method=='GET'):
         return render(request, 'lilly_getOneTemp.html')
@@ -443,6 +518,9 @@ def lenglian_ApiList(request):
 
 ##### 冷链 登录接口测试 #####
 def lenglian_login(request):
+    """
+    TODO 冷链 登录接口测试
+    """
     # 判断前端请求类型
     if(request.method=='GET'):
         return render(request, 'lenglian_login.html')
@@ -515,6 +593,9 @@ def lora_ApiList(request):
 
 ##### Lora 登录接口测试 #####
 def lora_login(request):
+    """
+    TODO Lora 登录接口测试
+    """
     # 判断前端请求类型
     if(request.method=='GET'):
         return render(request, 'lora_login.html')
@@ -583,6 +664,9 @@ def lora_login(request):
 
 ##### Lora 网关实时数据下载接口 #####
 def lora_getrealTimeTemp(request):
+    """
+    TODO Lora 网关实时数据下载接口
+    """
     # 判断前端请求类型
     if(request.method=='GET'):
         return render(request, 'lora_getRealTimeTemp.html')

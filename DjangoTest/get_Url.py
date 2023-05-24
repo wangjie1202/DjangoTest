@@ -3,14 +3,16 @@
 # author: wangjie
 # datetime: 2022/7/22 5:05 下午
 # software: PyCharm
-from common.basic import get_config,get_path
+from common.basic import get_config
 
 
 class Url():
 
     def __init__(self):
-        # 大app地址
-        self.bigApp_Host = get_config(name='bigAppHost', key='url')
+        # 大app地址海外
+        self.bigApp_Host_eu = get_config(name='bigAppHost', key='eu_url')
+        # 大app地址国内
+        self.bigApp_Host_ch = get_config(name='bigAppHost', key='ch_url')
         # 大app获取app基本信息
         self.bigApp_getBasicInfo = get_config(name='bigAppHost', key='bigApp_getBasicInfo')
         # 大app登录接口
@@ -19,6 +21,8 @@ class Url():
         self.bigApp_getCode = get_config(name='bigAppHost', key='bigApp_getCode')
         # 大app用户反馈接口
         self.bigApp_feedback = get_config(name='bigAppHost', key='bigApp_feedback')
+        # 大app验证码发送接口
+        self.bigApp_sendSmsCode = get_config(name='bigAppHost', key='bigApp_sendSmsCode')
 
         # Lilly地址
         self.lilly_Host = get_config(name='lillyHost_online', key='url')
