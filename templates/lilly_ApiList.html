@@ -12,6 +12,7 @@
 			<option value="0">请选择测试接口</option>
 			<option value="1">登录接口</option>
 			<option value="2">**网关实时数据下载**</option>
+			<option value="3">**网关实时数据最新记录查询**</option>
 		</select>
 		<input type="text" id="textbox" readonly="readonly">
 		<button value="" id="btn_api" onclick="jump()">点击前往</button>
@@ -32,6 +33,8 @@
 			break;
 			case "2":
 			document.getElementById("textbox").value = "/onetemp/";
+			case "3":
+			document.getElementById("textbox").value = "/currentonetemp/";
 			break;
 			case "0":
 			document.getElementById("textbox").value = null;
@@ -45,8 +48,8 @@
 		else if(temp=="/onetemp/"){
 			location = "/lilly_getOneTemp/";
 		}
-		else if(temp=="/api/user/login/"){
-			location = "/lilly_login/";
+		else if(temp=="/currentonetemp/"){
+			location = "/lilly_getCurrentOneTemp/";
 		}
 		else{
 			alert("未选择任何接口！")

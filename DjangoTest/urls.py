@@ -28,6 +28,7 @@ urlpatterns = [
     path('lilly_ApiList/', views.lilly_ApiList),
     path('lilly_login/', views.lilly_login),
     path('lilly_getOneTemp/', views.lilly_getOneTemp),
+    path('lilly_getCurrentOneTemp/', views.lilly_getCurrentOneTemp),
     path('lenglian_ApiList/', views.lenglian_ApiList),
     path('lenglian_login/', views.lenglian_login),
     path('lora_ApiList/', views.lora_ApiList),
