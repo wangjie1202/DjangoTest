@@ -519,7 +519,7 @@ def lilly_getCurrentOneTemp(request):
     """
     # 判断前端请求类型
     if(request.method=='GET'):
-        return render(request, 'lilly_getOneTemp.html')
+        return render(request, 'lilly_getCurrentOneTemp.html')
     else:
         website_getOrders = Url().lilly_Host + Url().lilly_selectOrders
         website_getOneTemp = Url().lilly_Host + Url().lilly_getOneTemp
