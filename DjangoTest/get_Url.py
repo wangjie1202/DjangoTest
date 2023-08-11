@@ -32,6 +32,8 @@ class Url():
         self.lilly_getOneTemp = get_config(name='iot_api', key='iot_onetemp')
         # Lilly运单号查询接口
         self.lilly_selectOrders = get_config(name='iot_api', key='iot_selectOrders')
+        # Lilly运单号查询接口
+        self.lilly_orderDetail = get_config(name='iot_api', key='iot_orderDetail')
 
         # 冷链地址
         self.lenglian_Host = get_config(name='lenglianHost_online', key='url')

@@ -523,6 +523,7 @@ def lilly_getCurrentOneTemp(request):
     else:
         website_getOrders = Url().lilly_Host + Url().lilly_selectOrders
         website_getOneTemp = Url().lilly_Host + Url().lilly_getOneTemp
+        website_getOrderDetail = Url().lilly_Host + Url().lilly_orderDetail
         log.info('请求地址：' + website_getOrders)
         parameter_type = request.POST
         log.info(parameter_type)
@@ -532,6 +533,7 @@ def lilly_getCurrentOneTemp(request):
             order = json.loads(json.dumps(parameter_type['order']))
             mmc_id = json.loads(json.dumps(parameter_type['mmcid']))
             data_json = {"number": order}
+            data_orderDetail = {"mac": mmc_id, "number": order}
             headers = json.loads(request.POST['content_type'])
 
             # token使用判断
@@ -575,6 +577,12 @@ def lilly_getCurrentOneTemp(request):
 
                     log.info(mmc_id + ' 查询指定温度标签成功')
 
+
+                    log.info('请求地址：' + website_getOrderDetail)
+                    log.info('请求参数：' + str(data_orderDetail))
+                    resp_datail = requests.post(url=website_getOrderDetail, headers=headers, json=data_orderDetail)
+
+
                     order_data = {
                         "start_time": get_Start_time,
                         "end_time": get_End_time,
@@ -583,15 +591,17 @@ def lilly_getCurrentOneTemp(request):
                     log.info('请求地址：' + website_getOneTemp)
                     log.info('请求参数：' + str(order_data))
                     resp = requests.post(url=website_getOneTemp, headers=headers, json=order_data)
-                    if response.status_code != 200:
+                    if resp.status_code != 200 and resp_datail.status_code != 200:
                         return render(request, 'error.html')
                     else:
                         resp_data = resp.json()['data']
+                        resp_datail_data = resp_datail.json()['orders']
                         context = {
                             'current_time': timeStampToStyleTime(int(resp_data[-1]['scan_time']) + 8 * 60 * 60),
                             'temperature': resp_data[-1]['temperature'],
                             'location': resp_data[-1]['scan_location'],
                             'rssi': resp_data[-1]['rssi'],
+                            'power': resp_datail_data[0]['power']
                         }
                         return render(request, 'lilly_LatestRealTimeTemp.html', context)
         else:
