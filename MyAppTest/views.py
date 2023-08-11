@@ -587,10 +587,13 @@ def lilly_getCurrentOneTemp(request):
                         return render(request, 'error.html')
                     else:
                         resp_data = resp.json()['data']
-                        utc8 = int(resp_data[-1]['scan_time']) + 8 * 60 * 60
-                        temperature = resp_data[-1]['temperature']
-                        location = resp_data[-1]['scan_location']
-                        return HttpResponse("当前时间：" + timeStampToStyleTime(utc8)+"，当前温度：" + temperature +"，当前经纬度：" + location)
+                        context = {
+                            'current_time': timeStampToStyleTime(int(resp_data[-1]['scan_time']) + 8 * 60 * 60),
+                            'temperature': resp_data[-1]['temperature'],
+                            'location': resp_data[-1]['scan_location'],
+                            'rssi': resp_data[-1]['rssi'],
+                        }
+                        return render(request, 'lilly_LatestRealTimeTemp.html', context)
         else:
             return HttpResponse("请求参数不可为空！")
 

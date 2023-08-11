@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weather Info</title>
+    <style>
+        .info-box {
+            width: 80%;
+            padding: 20px;
+            margin: 0 auto;
+            color: #ffffff;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .time {
+            background-color: #005AB5;
+        }
+        .temperature {
+            background-color: #2196f3;
+        }
+        .location {
+            background-color: #4caf50;
+        }
+      </style>
+</head>
+<body>
+    <div class="info-box time">
+        <h2>当前温度情况</h2>
+        <p>检测时间: {{ current_time }}</p>
+        <h1> {{ temperature }}°C</h1>
+         <p>RSSI: {{ rssi }}</p>
+        <p>位置: {{ location }}</p>
+    </div>
+</body>
+</html>
